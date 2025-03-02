@@ -1,0 +1,129 @@
+openapi: 3.0.0
+info:
+  title: gi
+  description: Wallet Management Service API
+  version: 1.0.0
+paths:
+  /wallet/balance/{walletId}:
+    get:
+      summary: Get wallet balance
+      description: Retrieves the balance of a specific wallet by its ID.
+      parameters:
+        - name: walletId
+          in: path
+          required: true
+          description: The ID of the wallet to retrieve the balance for.
+          schema:
+            type: integer
+          example: 5
+      responses:
+        '200':
+          description: Balance retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance:
+                    type: string
+                    example: "3000"
+        '400':
+          description: Bad request (e.g., invalid wallet ID)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Invalid wallet ID
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: internal server error
+  /wallet/update:
+    post:
+      summary: Update wallet balance
+      description: Updates the balance of a specific wallet by adding or deducting funds.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                walletId:
+                  type: integer
+                  description: The ID of the wallet to update.
+                  example: 5
+                type:
+                  type: string
+                  description: The type of transaction (e.g., 'credit' or 'debit').
+                  example: credit
+                amount:
+                  type: string
+                  description: The amount to update the wallet by.
+                  example: "100.0"
+                currency:
+                  type: string
+                  description: The currency of the amount.
+                  example: USD
+                reason:
+                  type: string
+                  description: The reason for the update.
+                  example: stock
+              required:
+                - walletId
+                - type
+                - amount
+                - currency
+                - reason
+      responses:
+        '200':
+          description: Balance updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+        '400':
+          description: Bad request (e.g., invalid input data)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Invalid input data
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: internal server error
