@@ -22,3 +22,13 @@
 
 ## Документация:
 http://localhost:8080
+
+## SQL query
+
+```bash
+SELECT currency, SUM(amount::numeric) AS total_refund_amount
+FROM transaction
+WHERE reason = 'refund'
+AND created_at >= NOW() - INTERVAL '7 days'
+GROUP BY currency;
+```
